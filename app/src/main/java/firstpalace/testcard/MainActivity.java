@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Adapter;
 import android.widget.LinearLayout;
@@ -13,8 +15,11 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    String platform, gameName;
+    int image;
     RecyclerView recyclerView;
     ArrayList<Game> games;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +49,21 @@ public class MainActivity extends AppCompatActivity {
         MAdapter mAdapter = new MAdapter(games, getApplicationContext(), new MAdapter.OnItemClicklistener(){
             @Override
             public void onItemClick(Game game){
-                Toast.makeText(MainActivity.this, game.getName(), Toast.LENGTH_SHORT).show();
+
+
+                platform = game.getPlatform();
+                gameName = game.getName();
+                image = game.getImage();
+
+                Bundle bundle1 = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle();
+                Intent detCell1 = new Intent(getBaseContext(), detailGame.class);
+                System.out.println("-->" + game.getImage());
+                detCell1.putExtra("p1", platform);
+                detCell1.putExtra("p2", gameName);
+                detCell1.putExtra("p3",image);
+
+
+                startActivity(detCell1, bundle1);
             }
         });
 
